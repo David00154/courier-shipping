@@ -5,4 +5,4 @@ set -o errexit
 
 cd build
 # Start server
-node server.js
+ENV_PATH=/etc/secrets/.env node server.js
