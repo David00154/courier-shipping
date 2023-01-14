@@ -14,4 +14,4 @@ services:
       - key: CACHE_VIEWS
         value: false
       - key: HOST
-        value: $RENDER_EXTERNAL_HOSTNAME
+        value: 0.0.0.0
