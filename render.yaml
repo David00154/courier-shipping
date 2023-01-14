@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: horizon-express-admin
+    env: node
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "./bin/render-start.sh"
+    envVars:
+      - key: DRIVE_DISK
+        value: local
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: APP_KEY
+        value: CpBTy78ek_rCu7KwXnNPtX27nFyB4yu3
+      - key: CACHE_VIEWS
+        value: false
+      - key: HOST
+        value: $RENDER_EXTERNAL_HOSTNAME
