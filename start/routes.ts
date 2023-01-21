@@ -18,8 +18,23 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
+import Route from "@ioc:Adonis/Core/Route";
 
-Route.get('/', async ({ view }) => {
-  return view.render('welcome')
-})
+Route.on("/").redirect("/admin");
+
+// Admin route group
+Route.group(() => {
+  Route.get("/", "UserController.index");
+}).prefix("admin");
+
+// User route group
+Route.group(() => {}).prefix("user");
+
+Route.group(() => {
+  Route.get("/login", async (ctx) => {
+    return await ctx.view.render("login");
+  });
+  Route.get("/register", async (ctx) => {
+    return await ctx.view.render("register");
+  });
+}).prefix("auth");

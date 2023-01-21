@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Auth {{title}}</title>
+    @entryPointStyles('app')
+    @entryPointScripts('app')
+    <style type="text/css" media="all">
+        .login-box .input-group .form-control {
+            border-right: 1px solid #ced4da !important;
+        }
+
+        body {
+            background: #FFF !important;
+        }
+
+        div.login-box {
+            width: 500px;
+        }
+
+        div.login-box div.card {
+            padding: 2.75rem 3.75rem !important;
+            box-shadow: 0 .1rem 1rem .25rem rgba(0, 0, 0, .05) !important;
+            border-radius: 0.475rem !important;
+            border: 0 none !important;
+        }
+
+        div.login-box div.card div.card-body {
+            padding: 24px 0 0 0 !important;
+        }
+
+        div.login-box div.card-header {
+            padding: 0 !important;
+            border: 0 none !important;
+            margin-bottom: 24px !important;
+        }
+
+        p.forgot-password {
+            text-align: center;
+            padding-top: 30px;
+            margin: 0 auto !important;
+        }
+
+        .widget-title {
+            padding: 0 !important;
+            margin: 0 auto 24px !important;
+            text-align: center !important;
+            position: relative !important;
+            display: block !important;
+            font-size: 22px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+        }
+
+        .form-control {
+            height: calc(50px + 2px) !important;
+            border-radius: 5px !important;
+        }
+
+        .input-group:not(.has-validation)>.form-control:not(:last-child),
+        .input-group:not(.has-validation)>.custom-select:not(:last-child),
+        .input-group:not(.has-validation)>.custom-file:not(:last-child) .custom-file-label::after {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+
+        @media (max-width: 767px) {
+
+            html,
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+                -ms-touch-action: manipulation;
+                touch-action: manipulation;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                overflow-x: hidden !important;
+                width: unset !important;
+                height: unset !important;
+            }
+
+            body {
+                min-height: unset !important;
+            }
+
+            div.login-box {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            div.login-box div.card {
+                padding: 40px 24px !important;
+                background: none transparent !important;
+                box-shadow: none !important;
+
+            }
+        }
+    </style>
+    <style type="text/css" media="all">
+        p.links {
+            text-align: center;
+            padding-top: 30px;
+            margin: 0 auto !important;
+        }
+    </style>
+</head>
+
+<body class="{{className}}" style="min-height: 975.891px;">
+    <div class="login-box">
+
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="https://cargo.bdaia.com/admin" class="mb-12">
+                    <img alt="Logo" src="https://cargo.bdaia.com/assets/lte/cargo-logo.svg"
+                        style="max-width: 88px;max-height: 52px;">
+                </a>
+            </div>
+            <div class="card-body login-card-body">
+                @!section('body')
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

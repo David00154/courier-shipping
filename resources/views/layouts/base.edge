@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    @entryPointStyles('app')
+    @entryPointScripts('app')
+</head>
+
+<body class="sidebar-mini layout-fixed layout-navbar-fixed" style="height: auto;">
+    <div class="wrapper">
+        @include('partials/header')
+        @include('partials/sidebar')
+        <div class="content-wrapper px-4 py-2" style="min-height: 338px;">
+            <div class="content-header">
+                <h1>Woop</h1>
+            </div>
+            <div class="content px-2">
+                @!section('body')
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
