@@ -6,5 +6,10 @@ set -o errexit
 npm i
 node ace build --ignore-ts-errors --production
 cd build
+cp -r ../prisma .
+echo "RUNNING CI..."
 npm ci --production
+echo "RUNNING PRISMA MIGRATE DEPLOY..."
+npx prisma migrate deploy
+echo "GOING OUT OF BUILD"
 cd ..
