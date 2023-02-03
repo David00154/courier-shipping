@@ -10,6 +10,6 @@ cp -r ../prisma .
 echo "RUNNING CI..."
 npm ci --production
 echo "RUNNING PRISMA MIGRATE DEPLOY..."
-ENV_PATH=/etc/secrets/.env npx prisma migrate deploy
+npx prisma migrate deploy
 echo "GOING OUT OF BUILD"
 cd ..
