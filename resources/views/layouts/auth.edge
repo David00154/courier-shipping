@@ -5,12 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Auth {{title}}</title>
-    @entryPointStyles('app')
+
     @entryPointScripts('app')
+    <link rel="stylesheet" href="/plugins/fontawesome/css/all.min.css">
+    <!-- icheck-bootstrap -->
+    <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" crossorigin="anonymous">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/css/adminlte.css">
+    <link rel="stylesheet" href="/css/ltr.css">
+    {{--  <link rel="stylesheet" href="/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">  --}}
     <style type="text/css" media="all">
+        .input-group .iti--allow-dropdown {
+            width: 100% !important;
+        }
+
         .login-box .input-group .form-control {
             border-right: 1px solid #ced4da !important;
         }
+
 
         body {
             background: #FFF !important;
@@ -98,6 +112,14 @@
 
             }
         }
+
+        .select2-container--default .select2-selection--single {
+            height: 100% !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100% !important;
+        }
     </style>
     <style type="text/css" media="all">
         p.links {
@@ -106,6 +128,7 @@
             margin: 0 auto !important;
         }
     </style>
+    @entryPointStyles('app')
 </head>
 
 <body class="{{className}}" style="min-height: 975.891px;">
@@ -114,8 +137,7 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <a href="https://cargo.bdaia.com/admin" class="mb-12">
-                    <img alt="Logo" src="https://cargo.bdaia.com/assets/lte/cargo-logo.svg"
-                        style="max-width: 88px;max-height: 52px;">
+                    <img alt="Logo" src="https://cargo.bdaia.com/assets/lte/cargo-logo.svg" style="max-width: 88px;max-height: 52px;">
                 </a>
             </div>
             <div class="card-body login-card-body">
@@ -124,6 +146,43 @@
 
         </div>
     </div>
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    @section('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- jQuery -->
+    {{--  <script src="/plugins/jquery/jquery.min.js"></script>  --}}
+    <script src="/plugins/select2/js/select2.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/js/adminlte.js"></script>
+
+    {{--  <script src="/plugins/sweetalert2/sweetalert2.js"></script>
+    <script src="/plugins/toastr/toastr.min.js"></script>  --}}
+    @endsection
+    {{--  <style>
+        .input-group .iti--allow-dropdown,
+        .phone_input {
+            width: 100% !important;
+        }
+    </style>  --}}
+    {{--  @section('scripts')  --}}
+    {{--  @super  --}}
+    {{--  @if(flashMessages.has("form.error"))  --}}
+    {{--  <script>
+    // $(function (){
+    // let Toast = Swal.mixin({
+    // toast:true,
+    // position:'top-end',
+    // showConfirmButton:false,
+    // timer:3000
+    // })
+    // toastr.error("{{flashMessages.get("form.error")}}")
+    })
+    </script> --}}
+    {{--  @end  --}}
+    {{--  @endsection  --}}
+    {{--  @!section('scripts')  --}}
 </body>
 
 </html>

@@ -1,0 +1,220 @@
+@layout('layouts/auth')
+@set('title', 'Register')
+@set('className', 'login-page')
+@set('minHeight', 812.391)
+
+@section('body')
+<h3 class="widget-title">Create A New Account</h3>
+@if(flashMessages.has('form.register.error'))
+@!alert({
+message:flashMessages.get('form.register.error'),
+type:"error"
+})
+@endif
+{{--  {{inspect(flashMessages.all())}} --}}
+<form method="POST" action="{{ route('auth.register') }}" novalidate="novalidate" id="kt_sign_in_form">
+    {{--  <input type="hidden" name="_token" value="uqt6qZ2EcBcVciLmwsXdkl88KEPbb0afvMdP2s0Z">  --}}
+    <div class="input-group mb-3">
+        <input type="text" class="form-control " name="name" required="" placeholder="Full name" value="{{flashMessages.get("name","")}}" autocomplete="on" value="" autofocus="">
+    </div>
+    <div class="input-group mb-3">
+        <input type="email" class="form-control " name="email" required="" id="email" placeholder="Email" value="{{flashMessages.get("email","")}}" autocomplete="on" value="">
+    </div>
+    <div class="input-group mb-3">
+        <input type="password" class="form-control " name="password" required="" id="password" placeholder="Password" value="{{flashMessages.get("password","")}}" autocomplete="off">
+    </div>
+    <div class="text-muted">
+        <p class="text-sm">
+            {{ 'Use 8 or more characters with a mix of letters, numbers & symbols.' }}
+        </p>
+    </div>
+
+    <div class="input-group mb-3">
+        <select name="country" id="_country" class="form-control select-country">
+            <option></option>
+        </select>
+    </div>
+    <div class="input-group mb-3 state">
+        <select name="state" id="_state" class="form-control select-state">
+            <option></option>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <input type="tel" value="{{flashMessages.get("phoneNumber","")}}" autofocus="" dir="ltr" name="phoneNumber" id="phone" required class="form-control phone_input number-only inptFielsd"
+            style="padding-left: 90px;">
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+            <div class="icheck-primary">
+                <input type="checkbox" name="terms_conditions" class="" id="remember">
+                <label for="remember" style="font-size: 13px; font-weight: normal" required="">
+                    I agree with the Terms and Conditions
+                </label>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </div>
+
+    </div>
+</form>
+
+<p class="mb-0 links">
+    Already have an account?<a href="/auth/login" class="text-center"> Login</a>
+</p>
+@end
+
+@section('scripts')
+@super
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8-beta.1/inputmask.js"
+    integrity="sha512-aSxEzzrnqlqgASdjAelu/V291nzZNygMSFMJ0h4PFQ+uwdEz6zKkgsIMbcv0O0ZPwFRNPFWssY7gcL2gZ6/t9A==" defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js" defer crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" defer crossorigin="anonymous"></script>
+
+<script defer>
+    // $("select-branch")
+    $(document).ready(async function () {
+        $("#_state").prop("disabled", true);
+
+        $(".select-country").select2({
+            placeholder: "Choose Country",
+            allowClear: true
+        })
+        $(".select-state").select2({
+            placeholder: "Choose State",
+            allowClear: true,
+            data: []
+        })
+        const getStates = async (country) => {
+            const data = await fetch(`/auth/state/${country}`);
+            let result = await data.json()
+            return result[0]
+        }
+
+        // const country_data = await fetch("https://restcountries.com/v3.1/all")
+        const country_data = await fetch("/auth/get-countries")
+        let country_result = await country_data.json()
+        // country_result.sort((a, b) => a.name.common.localeCompare(b.name.common))
+        country_result.map((value, i) => {
+            $(".select-country").append(new Option(value.name, value.name, false, false)).trigger("change")
+        });
+
+        const showStatePrompt = (msg) => {
+            $(".state").append("<span style='display: block; margin-top:.25rem; font-size: 80%;' + class=\"state-feedback text-success\" role=\"alert\">\n" +
+                " <strong>" + msg + "</strong>\n" +
+                " </span>")
+        }
+
+        const removeStatePrompt = () => {
+            $(".state-feedback").remove()
+        }
+
+        $(".select-country").on('select2:open', async function (e) {
+            removeStatePrompt()
+            $("#_state").prop("disabled", true);
+        })
+        $(".select-country").on('select2:select', async function (e) {
+
+            showStatePrompt("Seraching for states ...")
+            $(".select-state").empty()
+            let data_ = await getStates(e.params.data.text)
+            removeStatePrompt()
+            $(".select-state").append("<option></option>")
+            $("#_state").prop("disabled", false);
+            if (data_.states.length > 0) {
+                data_.states.map((data, i) => {
+                    $(".select-state").append(new Option(data.name, data.name, false, false)).trigger("change")
+                })
+            } else {
+                $(".select-state").append(new Option("Not available", "Not available", false, false)).trigger("change")
+            }
+        });
+    })
+</script>
+
+<script defer>
+    $(function () {
+
+        let phoneNumbers = $('.phone_input'),
+            wrong_number = window.wrong_number_msg,
+            required_phone = window.required_phone
+
+
+
+        phoneNumbers.each(function () {
+            let self = $(this),
+                input = self[0],
+                type = self.attr('data-type');
+            // initialise plugin
+            let iti = window.intlTelInput(input, {
+                separateDialCode: true,
+                utilsScript: window.static_asset_utils_file,
+                initialCountry: "ng",
+                preferredCountries: ["eg", "ng", "ke"],
+                autoPlaceholder: "aggressive"
+            });
+            input.addEventListener("countrychange", function () {
+                $('.phone_input').filter(`[data-reflection="${type}"]`).val(iti.getSelectedCountryData().dialCode);
+                $('.country_code').val('+' + iti.getSelectedCountryData().dialCode);
+            });
+            let reset = function () {
+                self.parent().next('.invalid-feedback').remove();
+                self.parent().removeClass('not-valid');
+                self.removeClass("error is-invalid");
+            };
+
+            let addError = function (msg) {
+                self.addClass('error is-invalid');
+                self.parent().addClass('not-valid');
+                self.parent().after("<span style='display: block' class=\"invalid-feedback\" role=\"alert\">\n" +
+                    " <strong>" + msg + "</strong>\n" +
+                    " </span>");
+                return false;
+            };
+            // on blur: validate
+            input.addEventListener('blur', function () {
+                reset();
+
+                if (self.attr('required')) {
+                    if (input.value.trim() == '') {
+                        return addError('field is empty')
+                    }
+                }
+
+                if (input.value.trim() && !iti.isValidNumber()) {
+                    return addError('required')
+                }
+                // run code if verified
+            });
+            // on keyup / change flag: reset
+            input.addEventListener('change', reset);
+            input.addEventListener('keyup', reset);
+        })
+
+
+        $(".number-only").keypress(function (event) {
+            let ewn = event.which;
+            if (ewn >= 48 && ewn <= 57) {
+                return true;
+            }
+            return false;
+        });
+
+
+        $("#kt_sign_in_form").on("submit", function (evt) {
+            let phoneField = $(this).find(".phone_input");
+            if (phoneField.hasClass('error')) {
+                evt.preventDefault();
+                return false
+            } else {
+                //do the rest of your validations here
+                $("#kt_sign_in_form").submit();
+            }
+        });
+
+    });
+</script>
+@endsection

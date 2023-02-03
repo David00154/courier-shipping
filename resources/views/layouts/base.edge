@@ -5,11 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}</title>
-    @entryPointStyles('app')
     @entryPointScripts('app')
+    <link rel="stylesheet" href="/plugins/fontawesome/css/all.min.css">
+    <!-- icheck-bootstrap -->
+    <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/css/adminlte.css">
+    <link rel="stylesheet" href="/css/ltr.css">
+    @entryPointStyles('app')
 </head>
 
-<body class="sidebar-mini layout-fixed layout-navbar-fixed" style="height: auto;">
+<body class="sidebar-mini layout-fixed layout-footer-fixed layout-navbar-fixed" style="height: auto;">
     <div class="wrapper">
         @include('partials/header')
         @include('partials/sidebar')
@@ -23,7 +29,17 @@
         </div>
     </div>
 
+    @section('scripts')
+    <!-- jQuery -->
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/js/adminlte.js"></script>
 
+    {{--  <script src="/plugins/sweetalert2/sweetalert2.js"></script>
+    <script src="/plugins/toastr/toastr.min.js"></script>  --}}
+    @endsection
 </body>
 
 </html>

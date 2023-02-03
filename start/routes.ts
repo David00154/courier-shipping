@@ -19,6 +19,7 @@
 */
 
 import Route from "@ioc:Adonis/Core/Route";
+import axios from "axios";
 
 Route.on("/").redirect("/admin");
 
@@ -28,13 +29,34 @@ Route.group(() => {
 }).prefix("admin");
 
 // User route group
-Route.group(() => {}).prefix("user");
+Route.group(() => {}).prefix("client");
 
 Route.group(() => {
-  Route.get("/login", async (ctx) => {
-    return await ctx.view.render("login");
+  Route.get("/login", "AuthController.loginShow").as("auth.login.show");
+  Route.get("/register", "AuthController.registerShow").as(
+    "auth.register.show"
+  );
+  Route.get("/logout", "AuthController.logout").as("auth.logout");
+  Route.post("/register", "AuthController.register").as("auth.register");
+  Route.post("/login", "AuthController.login").as("auth.login");
+  Route.get("/state/:name", async ({ response, request }) => {
+    let name = request.param("name");
+    let { data } = await axios.get(
+      "https://raw.githubusercontent.com/David00154/countries-states-cities-database/master/countries%2Bstates.json"
+    );
+    const parseURL = (value) => {
+      return decodeURIComponent(decodeURIComponent(encodeURIComponent(value)));
+    };
+    let result = data.filter((x) => x.name === parseURL(name));
+
+    return response.json(result);
   });
-  Route.get("/register", async (ctx) => {
-    return await ctx.view.render("register");
+  Route.get("/get-countries", async ({ response }) => {
+    let { data } = await axios.get(
+      "https://raw.githubusercontent.com/David00154/countries-states-cities-database/master/countries.json"
+    );
+    let result = data;
+
+    return response.json(result);
   });
 }).prefix("auth");
