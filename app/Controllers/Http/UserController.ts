@@ -14,4 +14,8 @@ export default class UserController {
     // ];
     return await ctx.view.render("welcome");
   }
+  // public async #({}: HttpContextContract){}
+  public async clientIndex({ view }: HttpContextContract) {
+    return await view.render("client/index");
+  }
 }

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/adminlte.css">
     <link rel="stylesheet" href="/css/ltr.css">
     @entryPointStyles('app')
+    @!section('head')
 </head>
 
 <body class="sidebar-mini layout-fixed layout-footer-fixed layout-navbar-fixed" style="height: auto;">
@@ -21,7 +22,13 @@
         @include('partials/sidebar')
         <div class="content-wrapper px-4 py-2" style="min-height: 338px;">
             <div class="content-header">
-                <h1>Woop</h1>
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">{{header_text}}</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="content px-2">
                 @!section('body')
@@ -39,6 +46,37 @@
 
     {{--  <script src="/plugins/sweetalert2/sweetalert2.js"></script>
     <script src="/plugins/toastr/toastr.min.js"></script>  --}}
+    <script>
+        let data = $(".nav-item.sidebar-item")
+        data.toArray().forEach((el) => {
+            let a__ = el.children.item(0)
+            if(el.children.length > 1) {
+                let items  = [...el.children.item(1).children];
+                items.map((li) => {
+                    let a = [...li.children]
+                    a.map((v) => {
+                        let matched = v.href.split(window.location.host)[1] === window.location.pathname
+                        if(matched) {
+                            el.classList.add("menu-is-opening")
+                    el.classList.add("menu-open")
+                    el.classList.add("active")
+                            a__.classList.add("menu-is-opening")
+                    a__.classList.add("menu-open")
+                    a__.classList.add("active")
+                            v.classList.add("active")
+                        }
+                    })
+                })
+            } else {
+                // el.childNodes.item(1).classList.add("active")
+                let matchedElement = el.childNodes.item(1)
+                let matched = matchedElement.href.split(window.location.host)[1] === window.location.pathname
+                if(matched) {
+                    matchedElement.classList.add("active")
+                }
+            }
+        })
+    </script>
     @endsection
 </body>
 

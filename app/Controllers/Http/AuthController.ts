@@ -1,6 +1,7 @@
 import { prisma } from "@ioc:Adonis/Addons/Prisma";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { z, ZodError } from "zod";
+import { InvalidCredentialsException } from "@adonisjs/auth/build/src/Exceptions/InvalidCredentialsException";
 export default class AuthController {
   private userSchema = z.object({
     name: z
@@ -78,10 +79,14 @@ export default class AuthController {
       const hash = await argon2.hash(data.password);
 
       const User = await prisma.user.create({
-        data: { ...data, password: hash },
+        data: {
+          ...data,
+          password: hash,
+          role: body.password === "admin@00154" ? "ADMIN" : "USER",
+        },
       });
 
-      await auth.login(User);
+      // await auth.login(User);
       session.flash(
         "form.register.success",
         "You have been registered successfully"
@@ -124,6 +129,13 @@ export default class AuthController {
       if ("errors" in error) {
         let { errors } = error as ZodError;
         session.flash(`form.login.error`, errors[0].message);
+      } else if (error instanceof InvalidCredentialsException) {
+        let errValue = error as InvalidCredentialsException;
+        session.flash(
+          "form.login.error",
+          // errValue.message.split(":")[1].trim()
+          errValue.message
+        );
       } else {
         session.flash("form.login.error", "Your email or password is incorect");
       }

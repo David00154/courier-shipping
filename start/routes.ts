@@ -26,13 +26,30 @@ Route.on("/").redirect("/admin");
 // Admin route group
 Route.group(() => {
   Route.get("/", "UserController.index");
-}).prefix("admin");
+})
+  .prefix("admin")
+  .middleware("guard-route:ensureAuthenticated,mustBeAdmin");
 
 // User route group
-Route.group(() => {}).prefix("client");
+Route.group(() => {
+  Route.get("/", "UserController.clientIndex");
+  Route.group(() => {
+    // Route.get("/", ({ response }) => {
+    //   return response.redirect("shipments/all");
+    // });
+    Route.get("/", "UserController.index");
+  })
+    // .as("shipments")
+    .prefix("shipments");
+  Route.get("/track", "UserController.index");
+})
+  .prefix("client")
+  .middleware("guard-route:ensureAuthenticated");
 
 Route.group(() => {
-  Route.get("/login", "AuthController.loginShow").as("auth.login.show");
+  Route.get("/login", "AuthController.loginShow")
+    .as("auth.login.show")
+    .middleware("guard-route:redirectIfLoggedIn");
   Route.get("/register", "AuthController.registerShow").as(
     "auth.register.show"
   );
