@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{title}}</title>
+    <title>{{dynamic_title || title}}</title>
     @entryPointScripts('app')
     <link rel="stylesheet" href="/plugins/fontawesome/css/all.min.css">
     <!-- icheck-bootstrap -->
@@ -20,9 +20,19 @@
     <div class="wrapper">
         @include('partials/header')
         @include('partials/sidebar')
-        <div class="content-wrapper px-4 py-2" style="min-height: 338px;">
+        <div class="content-wrapper py-2" style="min-height: 338px;">
             <div class="content-header">
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-8 col-12">
+                            @if(flashMessages.has('message.error'))
+                            @!alert({
+                            message:flashMessages.get('message.error'),
+                            type:"error"
+                            })
+                            @end
+                        </div>
+                    </div>
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0">{{header_text}}</h1>
@@ -30,9 +40,10 @@
                     </div>
                 </div>
             </div>
-            <div class="content px-2">
+            <section class="content px-2">
+
                 @!section('body')
-            </div>
+            </section>
         </div>
     </div>
 

@@ -15,17 +15,98 @@ enum Role {
   ADMIN
 }
 
+enum ShipmentSatus {
+  PENDIND
+  PROCESSING
+  DELIVERED
+  DONE
+}
+
+enum ShipmentType {
+  DROPOFF
+  PICKOFF
+}
+
+enum TransactionType {
+  WITHDRAWAL
+  DEPOSIT
+  SHIPMENT_PAYMENT
+}
+
 model User {
-  id              String  @id @default(cuid())
+  id              String     @id @default(cuid())
   name            String
-  email           String  @unique
+  email           String     @unique
   password        String
   rememberMeToken String?
   country         String?
   phoneNumber     String?
   state           String?
   branch          String?
-  role            Role    @default(USER)
+  role            Role       @default(USER)
+  Shipment        Shipment[]
+  Address         Address[]
+  Wallet          Wallet?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("users")
+}
+
+model Shipment {
+  id            String        @id @default(cuid())
+  code          String
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  status        ShipmentSatus @default(PENDIND)
+  type          ShipmentType
+  Address       Address       @relation(fields: [addressId], references: [id])
+  addressId     String
+  trasactionId  String
+  trasaction    Transaction   @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  transactionId String
+  cost          String?       @default("NAN")
+
+  @@map("shipments")
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("wallets")
+}
+
+model Transaction {
+  id    String          @id @default(cuid())
+  satus ShipmentSatus   @default(PENDIND)
+  type  TransactionType @default(SHIPMENT_PAYMENT)
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Shipment  Shipment[]
+}
+
+model Address {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  country     String
+  phoneNumber String
+  state       String
+  name        String
+  email       String
+  shipments   Shipment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("address")
 }

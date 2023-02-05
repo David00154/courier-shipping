@@ -34,7 +34,7 @@ export default class AuthController {
     password: z
       .string({ invalid_type_error: "Password is required" })
       .trim()
-      .min(8, { message: "Use 8 or more characters" }),
+      .min(8, { message: "Password must be 8 or more characters" }),
     email: z.string().trim().email(),
     remember: z.boolean().optional(),
   });
@@ -64,7 +64,6 @@ export default class AuthController {
     const argon2 = require("phc-argon2");
     try {
       const data = this.userSchema.parse({ ...body });
-
       // check if the email already exist
       let already_signed_up = await prisma.user.findUnique({
         where: {

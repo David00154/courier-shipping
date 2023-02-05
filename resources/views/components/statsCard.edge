@@ -1,0 +1,89 @@
+@section('head')
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+    .custom-card.card.card-colored {
+        background: #007bff;
+        color: #fff;
+    }
+
+    .custom-card.card {
+        font-family: 'Inter', sans-serif;
+        padding: 21px;
+        border-radius: 7px;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        /* min-height: 100px; */
+    }
+
+    .card-head {
+        display: flex;
+        /* align-items: center; */
+        justify-content: space-between;
+        font-size: 15px;
+    }
+
+    .card-head .right-icon {
+        font-size: 30px;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    .card.card-colored .right-icon::before {
+        content: "";
+        height: 50px;
+        width: 50px;
+        border-radius: 15%;
+        background: #58a4f58f;
+        position: absolute;
+        justify-content: center;
+    }
+
+    .card-body {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .card-footer {
+        font-size: 15px;
+    }
+
+    .card-body,
+    .card-footer {
+        padding: 0;
+    }
+
+    .custom-card.card p,
+    h3 {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+@end
+
+<div class="col-lg-4 col-sm-6 col-md-6 col-12">
+
+    <div class="custom-card card {{colored ? 'card-colored' : ''}}">
+        <div class="card-head">
+            <span>{{title}}</span>
+            <div class="right-icon">
+                <ion-icon name="{{icon}}"></ion-icon>
+            </div>
+        </div>
+        <div class="card-body">
+            <h3>{{body}}</h3>
+        </div>
+        <div class="card-footer">
+            <p>
+                @if(percent)
+                <span class="text-success">{{percent}}</span>
+                @endif
+                {{footer}}
+            </p>
+        </div>
+    </div>
+</div>

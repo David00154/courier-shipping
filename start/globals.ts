@@ -50,12 +50,12 @@ Views.global("client_nav_items", [
     children: [
       {
         name: "Shipments Report",
-        link: "/clien/shipments/reports",
+        link: "/clien/report/shipments",
         icon: "fas fa-box-open",
       },
       {
         name: "Transactions Report",
-        link: "/client/wallet/transactions/report",
+        link: "/client/report/transactions",
         icon: "fas fa-money-check-alt",
       },
     ],

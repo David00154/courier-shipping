@@ -10,11 +10,11 @@
 
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                @unless(auth.user?.role === 'ADMIN')
+                @if(auth.user?.role === 'ADMIN')
                 <img src="https://cargo.bdaia.com/storage/6/39920478250063bf1fb9d50a3365e4a6.png" class="img-circle elevation-2" alt="User Image">
                 @else
                 <img src="https://cargo.bdaia.com/assets/lte/media/avatars/blank.png" class="img-circle elevation-2" alt="User Image">
-                @endunless
+                @end
             </div>
             <div class="info">
                 @if(auth.user?.role === 'ADMIN')
@@ -36,7 +36,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-                @unless(auth.user?.role === 'ADMIN')
+                @if(auth.user?.role === 'ADMIN')
                 <li class="nav-item sidebar-item">
                     <a href="/admin" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -54,7 +54,7 @@
                         </p>
                     </a>
                 </li>
-                @endunless
+                @end
 
                 <!-- Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library -->
@@ -90,7 +90,7 @@
                         </p>
                     </a>
                 </li>  --}}
-                @unless(auth.user?.role === 'ADMIN')
+                @if(auth.user?.role === 'ADMIN')
                 <li></li>
                 @else
                 <li class="nav-header">Pages</li>
@@ -121,7 +121,7 @@
                 </li>
                 @end
 
-                @endunless
+                @end
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

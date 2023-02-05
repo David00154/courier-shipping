@@ -32,20 +32,37 @@ Route.group(() => {
 
 // User route group
 Route.group(() => {
+  // Dashboard Index
   Route.get("/", "UserController.clientIndex");
+  // Shipments
   Route.group(() => {
-    // Route.get("/", ({ response }) => {
-    //   return response.redirect("shipments/all");
-    // });
     Route.get("/", "UserController.index");
-  })
-    // .as("shipments")
-    .prefix("shipments");
-  Route.get("/track", "UserController.index");
+    Route.get("/create", "UserController.index");
+  }).prefix("shipments");
+  // Track
+  Route.group(() => {
+    Route.get("/", "TrackController.index");
+  }).prefix("track");
+  // Wallet
+  Route.group(() => {
+    Route.get("/", "UserController.index");
+    Route.get("/transactions", "UserController.index");
+  }).prefix("wallet");
+  // Reports
+  Route.group(() => {
+    Route.get("/shipments", "UserController.index");
+    Route.get("/transactions", "UserController.index");
+  }).prefix("report");
+  // Address
+  Route.group(() => {
+    Route.get("/", "UserController.index");
+    Route.get("/create", "UserController.index");
+  }).prefix("address");
 })
   .prefix("client")
   .middleware("guard-route:ensureAuthenticated");
 
+// Auth route group
 Route.group(() => {
   Route.get("/login", "AuthController.loginShow")
     .as("auth.login.show")
